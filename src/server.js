@@ -4,9 +4,10 @@ const express = require("express");
 const path = require("path");
 const configViewEngine = require("./config/viewEngine");
 const webRoutes = require("./routes/web");
-
+const APIRoutes = require("./routes/api");
 // Config connect sql
 const connection = require("./config/database");
+const { mongo } = require("mongoose");
 
 const app = express();
 const port = process.env.PORT;
@@ -21,18 +22,16 @@ configViewEngine(app);
 
 // Khai bao route
 app.use("/", webRoutes);
+app.use("/v1/api/", APIRoutes);
 
 //test connection
-
-// connection.query(
-//   "SELECT * from Users u",
-//   function (err, rows, fields, results) {
-//     // console.log("Fields", fields);
-//     // console.log("Error", err);
-//     // console.log("Rows", rows);
-//   }
-// );
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+(async () => {
+  try {
+    await connection();
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  } catch (error) {
+    console.log("Error", error);
+  }
+})();
