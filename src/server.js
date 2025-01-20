@@ -1,6 +1,7 @@
 // Config use env
 require("dotenv").config();
 const express = require("express");
+const fileUpload = require("express-fileupload");
 const path = require("path");
 const configViewEngine = require("./config/viewEngine");
 const webRoutes = require("./routes/web");
@@ -12,6 +13,9 @@ const { mongo } = require("mongoose");
 const app = express();
 const port = process.env.PORT;
 const hostname = process.env.HOST_NAME;
+// config file upload
+app.use(fileUpload());
+
 
 //config request body
 app.use(express.json());

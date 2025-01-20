@@ -32,7 +32,8 @@ const postCreateUser = async (req, res) => {
 
   await User.create({ email: email, name: name, city: city });
 
-  res.send("Create a new user successfully");
+  // res.send("Create a new user successfully");
+  res.redirect("/");
 };
 
 const getCreatePage = (req, res) => {
